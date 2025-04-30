@@ -67,7 +67,7 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         //configuration.addAllowedOrigin("http://localhost:5173/");
-        configuration.addAllowedOrigin("https://frontmural-production.up.railway.app");
+        configuration.addAllowedOrigin("https://mural-geo-dan.vercel.app/");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
