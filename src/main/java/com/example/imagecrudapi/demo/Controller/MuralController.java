@@ -31,7 +31,7 @@ public class MuralController {
         List<Imagem> imagens = muralDto.getImagens().stream().map(imgDto -> {
             Imagem imagem = new Imagem();
             imagem.setBase64Data(imgDto.getBase64Data());
-            imagem.setMural(mural); // Associa a imagem ao mural
+            imagem.setMural(mural);
             return imagem;
         }).collect(Collectors.toList());
 

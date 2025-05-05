@@ -39,11 +39,11 @@ public class TokenService {
 
     public boolean isTokenValido(String token) {
 
-        Key key = Keys.hmacShaKeyFor(secret.getBytes());
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
 
         try{
             Jwts.parser()
-                    .verifyWith((SecretKey) key)
+                    .verifyWith(key)
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
@@ -55,10 +55,10 @@ public class TokenService {
 
     public Long getIdUsuario(String token) {
 
-        Key key = Keys.hmacShaKeyFor(secret.getBytes());
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
 
         Claims claims = Jwts.parser()
-                .verifyWith((SecretKey) key)
+                .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
                 .getBody();
