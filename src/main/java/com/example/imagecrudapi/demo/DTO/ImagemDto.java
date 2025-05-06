@@ -1,9 +1,17 @@
 package com.example.imagecrudapi.demo.DTO;
 
+import com.example.imagecrudapi.demo.Model.Imagem;
+
 public class ImagemDto {
     private Long id;
     private String base64Data;
     private String descricao;
+
+    public ImagemDto(Imagem imagem) {
+        this.id = imagem.getId();
+        this.base64Data = imagem.getBase64Data();
+        this.descricao = imagem.getDescricao();
+    }
 
     public String getBase64Data() {
         return base64Data;

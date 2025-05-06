@@ -1,11 +1,22 @@
 package com.example.imagecrudapi.demo.DTO;
 
+import com.example.imagecrudapi.demo.Model.Mural;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MuralDto {
     private Long id;
     private String nome;
     private List<ImagemDto> imagens;
+
+    public MuralDto(Mural mural) {
+        this.id = mural.getId();
+        this.nome = mural.getNome();
+        this.imagens = mural.getImagens().stream()
+                .map(ImagemDto::new)
+                .collect(Collectors.toList());
+    }
 
     public String getNome() {
         return nome;

@@ -43,22 +43,13 @@ public class MuralController {
 
     @GetMapping
     public ResponseEntity<List<MuralDto>> buscarTodosMurais() {
-        List<Mural> murais = muralRepository.findAll();
-        List<MuralDto> resposta = murais.stream().map(m -> {
-            MuralDto dto = new MuralDto();
-            dto.setId(m.getId());
-            dto.setNome(m.getNome());
-            dto.setImagens(m.getImagens().stream().map(img -> {
-                ImagemDto i = new ImagemDto();
-                i.setId(img.getId());
-                i.setBase64Data(img.getBase64Data());
-                i.setDescricao(img.getDescricao());
-                return i;
-            }).collect(Collectors.toList()));
-            return dto;
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(resposta);
+        List<Mural> murais = muralRepository.findAllWithImagens();
+        List<MuralDto> muralDTOs = murais.stream()
+                .map(MuralDto::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(muralDTOs);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Mural> buscarMuralPorId(@PathVariable Long id) {
