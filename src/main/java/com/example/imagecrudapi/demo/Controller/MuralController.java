@@ -1,5 +1,6 @@
 package com.example.imagecrudapi.demo.Controller;
 
+import com.example.imagecrudapi.demo.DTO.ImagemDto;
 import com.example.imagecrudapi.demo.DTO.MuralDto;
 import com.example.imagecrudapi.demo.Model.Imagem;
 import com.example.imagecrudapi.demo.Model.Mural;
@@ -41,9 +42,22 @@ public class MuralController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Mural>> buscarTodosMurais() {
+    public ResponseEntity<List<MuralDto>> buscarTodosMurais() {
         List<Mural> murais = muralRepository.findAll();
-        return ResponseEntity.ok(murais);
+        List<MuralDto> resposta = murais.stream().map(m -> {
+            MuralDto dto = new MuralDto();
+            dto.setId(m.getId());
+            dto.setNome(m.getNome());
+            dto.setImagens(m.getImagens().stream().map(img -> {
+                ImagemDto i = new ImagemDto();
+                i.setId(img.getId());
+                i.setBase64Data(img.getBase64Data());
+                i.setDescricao(img.getDescricao());
+                return i;
+            }).collect(Collectors.toList()));
+            return dto;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(resposta);
     }
 
     @GetMapping("/{id}")
