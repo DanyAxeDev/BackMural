@@ -41,10 +41,12 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                        .requestMatchers("/", "/error", "/favicon.ico").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/murais/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
