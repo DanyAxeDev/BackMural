@@ -10,6 +10,9 @@ public class MuralDto {
     private String nome;
     private List<ImagemDto> imagens;
 
+    public MuralDto() {
+    }
+
     public MuralDto(Mural mural) {
         this.id = mural.getId();
         this.nome = mural.getNome();

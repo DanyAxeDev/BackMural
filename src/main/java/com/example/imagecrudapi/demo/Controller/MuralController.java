@@ -25,7 +25,7 @@ public class MuralController {
     private ImagemRepository imagemRepository;
 
     @PostMapping
-    public ResponseEntity<Mural> criarMural(@RequestBody MuralDto muralDto) {
+    public ResponseEntity<MuralDto> criarMural(@RequestBody MuralDto muralDto) {
         Mural mural = new Mural();
         mural.setNome(muralDto.getNome());
 
@@ -38,7 +38,7 @@ public class MuralController {
 
         mural.setImagens(imagens);
         muralRepository.save(mural);
-        return ResponseEntity.status(HttpStatus.CREATED).body(mural);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MuralDto(mural));
     }
 
     @GetMapping

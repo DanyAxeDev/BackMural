@@ -7,6 +7,9 @@ public class ImagemDto {
     private String base64Data;
     private String descricao;
 
+    public ImagemDto() {
+    }
+
     public ImagemDto(Imagem imagem) {
         this.id = imagem.getId();
         this.base64Data = imagem.getBase64Data();
