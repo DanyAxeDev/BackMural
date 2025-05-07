@@ -1,14 +1,13 @@
-RUN apt-get update && apt-get install -y ffmpeg
-
-# Etapa 1: Build
 FROM maven:3.9.4-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Etapa 2: Runtime
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17-jdk  # <-- imagem baseada em Debian (não alpine)
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y ffmpeg
+
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
