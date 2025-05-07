@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.example.imagecrudapi.demo.Utils.Utils.converterHeicParaJpegBase64;
+
 @RestController
 @RequestMapping("/imagens")
 public class ImagemController {
@@ -44,6 +46,14 @@ public class ImagemController {
         Imagem imagem = new Imagem();
 
         String base64Data = imagemDto.getBase64Data();
+        if (base64Data.startsWith("AAAA")) {
+            try {
+                base64Data = converterHeicParaJpegBase64(base64Data);
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("message", "Erro ao converter imagem HEIC", "error", e.getMessage()));
+            }
+        }
         String descricao = imagemDto.getDescricao();
         if (base64Data == null || base64Data.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Base64 da imagem está vazio"));
