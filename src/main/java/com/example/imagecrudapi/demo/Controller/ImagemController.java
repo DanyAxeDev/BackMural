@@ -5,6 +5,7 @@ import com.example.imagecrudapi.demo.Model.Imagem;
 import com.example.imagecrudapi.demo.Model.Mural;
 import com.example.imagecrudapi.demo.Repository.ImagemRepository;
 import com.example.imagecrudapi.demo.Repository.MuralRepository;
+import com.example.imagecrudapi.demo.Service.HeicConverterClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.example.imagecrudapi.demo.Utils.Utils.converterHeicParaJpegBase64;
-
 @RestController
 @RequestMapping("/imagens")
 public class ImagemController {
+
+    @Autowired
+    private HeicConverterClient converterClient;
 
     @Autowired
     private MuralRepository muralRepository;
@@ -48,7 +50,7 @@ public class ImagemController {
         String base64Data = imagemDto.getBase64Data();
         if (base64Data.startsWith("AAAA")) {
             try {
-                base64Data = converterHeicParaJpegBase64(base64Data);
+                base64Data = converterClient.converterHeicParaJpegBase64(base64Data);
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(Map.of("message", "Erro ao converter imagem HEIC", "error", e.getMessage()));
